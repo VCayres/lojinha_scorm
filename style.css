@@ -1,0 +1,432 @@
+:root {
+  --primary: #00b4d8;
+  --primary-dark: #0077b6;
+  --bg: #f7f7fa;
+  --paper: #fff;
+  --ink: #222;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}
+[hidden] { display: none !important; }
+.header {
+   width: 100%;
+  height: clamp(160px, 22vw, 320px);
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: center / cover no-repeat url('assets/27.lojinha.png');
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+
+.app {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 16px;
+  max-width: 1100px;
+  margin: 16px auto;
+  padding: 0 12px;
+}
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 12px;
+}
+.product-card {
+  background: var(--paper);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.product-img {
+  height: 160px;           /* altura fixa para não cortar a barra inferior da arte */
+  background-size: contain;/* encaixa a arte inteira */
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.product-info {
+  padding: .8rem;
+}
+.product-info h4 { margin: 0 0 .4rem; font-size: 1rem; }
+.price { opacity: .8; margin-bottom: .6rem; }
+.product-info button {
+  width: 100%;
+  padding: .6rem;
+  border: 0;
+  border-radius: 6px;
+  background: var(--primary);
+  color: #fff;
+  cursor: pointer;
+}
+.product-info button:hover { background: var(--primary-dark); }
+
+.cart-section {
+  background: var(--paper);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.06);
+  padding: 1rem;
+  height: fit-content;
+  position: sticky;
+  top: 1rem;
+}
+.cart-items { list-style: none; margin: 0; padding: 0; max-height: 300px; overflow: auto; }
+.cart-items li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+  padding: .45rem 0;
+}
+.cart-name { flex: 1; }
+.qty { display: flex; align-items: center; gap: 6px; }
+.qty-btn {
+  border: 0;
+  background: #eee;
+  border-radius: 4px;
+  padding: .2rem .5rem;
+  cursor: pointer;
+}
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: .8rem;
+  font-weight: 700;
+}
+.checkout-btn {
+  width: 100%;
+  margin-top: .6rem;
+  padding: .6rem;
+  border: 0;
+  border-radius: 6px;
+  background: var(--primary);
+  color: #fff;
+  cursor: pointer;
+}
+.checkout-btn:disabled { opacity: .6; cursor: not-allowed; }
+
+/* Barra mobile fixa */
+.mobile-cart-bar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  background: #111;
+  color: #fff;
+  padding: .7rem .9rem;
+  z-index: 40;
+}
+.mobile-cart-open {
+  background: #222;
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  padding: .5rem .8rem;
+}
+.mobile-cart-checkout {
+  background: var(--primary);
+  color: #fff;
+  border: 0;
+  border-radius: 6px;
+  padding: .5rem .9rem;
+}
+.mobile-cart-total { font-weight: 600; }
+
+/* Drawer mobile */
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+  z-index: 49;
+}
+.drawer {
+  position: fixed;
+  left: 0; right: 0; bottom: -100%;
+  background: var(--paper);
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -10px 30px rgba(0,0,0,.25);
+  z-index: 50;
+  transition: bottom .2s ease;
+  padding: 10px 14px 14px;
+  max-height: 75vh;
+  display: flex;
+  flex-direction: column;
+}
+.drawer.open { bottom: 0; }
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding: 6px 2px 10px;
+}
+.drawer-total { display: flex; justify-content: space-between; margin: .6rem 0; font-weight: 700; }
+
+/* Nota fiscal (modal) */
+.receipt-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+  z-index: 59;
+}
+.receipt-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 3999;
+  height: 90vh;
+  overflow: auto;
+}
+
+.receipt-paper {
+  width: min(820px, 95vw);
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 12px 40px rgba(0,0,0,.25);
+  padding: 18px;
+  border-radius: 8px;
+  opacity: 1;
+}
+.nf-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px dashed #bbb;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+.nf-qr {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+.nf-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.nf-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.nf-table th, .nf-table td {
+  border: 1px solid #ccc;
+  padding: 6px 8px;
+  text-align: left;
+  font-size: .95rem;
+}
+.nf-totais { margin-top: 10px; }
+.nf-totais p {
+  display: flex;
+  justify-content: space-between;
+  margin: .25rem 0;
+}
+.nf-aviso {
+  margin-top: 10px;
+  font-size: .9rem;
+  color: #444;
+  background: #fff6cc;
+  border: 1px solid #ffe28c;
+  border-radius: 6px;
+  padding: 8px;
+}
+.nf-acoes {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+.print-btn, .close-btn {
+  padding: .55rem .9rem;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.print-btn { background: var(--primary); color: #fff; }
+.close-btn { background: #eee; }
+
+/* Responsividade */
+@media (max-width: 960px) {
+ .header {
+    height: clamp(120px, 34vw, 180px);
+    background-position: center top;
+  }
+
+  .app {
+    grid-template-columns: 1fr;
+    margin: 12px auto 74px;
+    padding: 0 10px;
+  }
+
+  .products {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .product-img {
+    height: clamp(130px, 40vw, 180px);
+  }
+
+  .product-info {
+    padding: .7rem;
+  }
+
+  .product-info h4 {
+    font-size: .95rem;
+  }
+
+  .price {
+    font-size: .92rem;
+  }
+
+  .cart-section {
+    display: none; /* esconde no mobile */
+  }
+
+  .mobile-cart-bar {
+    display: flex;
+  }
+
+  .receipt-modal {
+    align-items: flex-end;
+  }
+
+  .receipt-paper {
+    width: 100vw;
+    max-height: 90vh;
+    overflow: auto;
+    border-radius: 14px 14px 0 0;
+    padding: 12px;
+    border: 0;
+  }
+
+  .nf-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nf-header h2 {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .nf-header p,
+  .nf-meta p,
+  .nf-aviso {
+    font-size: .85rem;
+  }
+
+  .nf-qr {
+    width: 88px;
+    height: 88px;
+  }
+
+  .nf-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .nf-table th,
+  .nf-table td {
+    font-size: .8rem;
+    padding: 5px 6px;
+  }
+
+  .nf-totais p {
+    font-size: .9rem;
+  }
+
+  .nf-acoes {
+    position: sticky;
+    bottom: -12px;
+    background: #fff;
+    padding-top: 8px;
+  }
+}
+@media print {
+  body { background: #fff; }
+  .header, .app, .mobile-cart-bar, .receipt-backdrop { display: none !important; }
+  .receipt-modal {
+    position: static;
+    inset: auto;
+    box-shadow: none;
+  }
+  .receipt-paper {
+    box-shadow: none;
+    border: 0;
+    width: 100%;
+  }
+}
+
+/* Adaptação SCORM: mantém as artes e a identidade da aplicação original. */
+:root { --primary: #007b94; --primary-dark: #005b70; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { font: inherit; }
+button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 3px solid #974b00; outline-offset: 4px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.skip-link { position: absolute; top: -100px; left: 12px; z-index: 5000; padding: 12px; background: white; color: #005b70; }
+.skip-link:focus { top: 12px; }
+.learning-panel { max-width: 1100px; margin: 20px auto; padding: 24px; display: grid; grid-template-columns: 1fr 270px; gap: 30px; background: #fff; border: 1px solid #dbe8ec; border-radius: 14px; }
+.learning-panel h2 { margin: 0 0 10px; font-size: clamp(1.3rem, 3vw, 1.8rem); color: #00495d; }
+.learning-panel p { line-height: 1.6; margin: 8px 0; }
+.eyebrow { color: #006679; font-size: .75rem; font-weight: 800; letter-spacing: .08em; }
+.tax-explanation, .cart-tip { font-size: .9rem; color: #4b5961; }
+.activity-steps { padding-left: 24px; list-style: none; margin: 0; }
+.activity-steps li { margin: 9px 0; color: #59636b; }
+.activity-steps [aria-current] { color: #00586e; font-weight: 750; }
+.activity-tracking { align-self: center; border-left: 2px solid #d8e9ed; padding-left: 20px; }
+#connection-status, #activity-status, #receipt-status { font-size: .85rem; }
+#connection-status[data-error="true"], #activity-status[data-error="true"], #receipt-status[data-error="true"] { color: #922c1c; }
+.secondary-btn { background: #edf4f6; color: #17485b; border: 1px solid #cbdfe5; border-radius: 6px; padding: .6rem .9rem; cursor: pointer; }
+.product-info h3 { margin: 0 0 .4rem; font-size: 1rem; }
+.product-img { width: 100%; object-fit: contain; }
+.cart-items li { flex-wrap: wrap; }
+.cart-name { flex-basis: 100%; }
+.qty-btn { min-width: 40px; min-height: 40px; }
+.cart-empty { color: #59636b; font-size: .95rem; }
+.drawer { inset: auto 0 0; margin: 0 auto; border: 0; width: min(100%, 600px); }
+.drawer:not([open]), .receipt-modal:not([open]) { display: none; }
+.drawer[open] { display: flex; }
+dialog::backdrop { background: rgba(0, 28, 40, .55); }
+.receipt-modal { inset: 0; margin: auto; padding: 0; border: 0; width: min(820px, 95vw); height: auto; max-height: 92vh; background: transparent; border-radius: 12px; }
+.receipt-modal[open] { display: block; }
+.receipt-paper { width: 100%; border: 0; box-shadow: none; }
+.nf-table-scroll { overflow-x: auto; }
+.nf-table { min-width: 540px; }
+.fiscal-reflection { padding: 14px; margin-top: 16px; background: #eff8f8; border-left: 4px solid var(--primary); line-height: 1.6; }
+.fiscal-reflection h3 { margin-top: 0; }
+.nf-acoes { flex-wrap: wrap; }
+.nf-acoes .checkout-btn { width: auto; margin: 0; padding: .55rem .9rem; }
+button:disabled { opacity: .65; cursor: not-allowed; }
+@media (max-width: 960px) {
+  .learning-panel { margin: 12px 10px; padding: 18px; grid-template-columns: 1fr; gap: 12px; }
+  .activity-tracking { border-left: 0; border-top: 1px solid #d8e9ed; padding: 10px 0 0; }
+  .activity-steps { padding-left: 0; display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: .85rem; }
+  .products { grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); }
+  .receipt-modal { width: 96vw; }
+  .receipt-paper { width: 100%; max-height: none; border-radius: 12px; }
+  .nf-table { display: table; white-space: normal; }
+  .nf-acoes { bottom: 0; padding-bottom: 4px; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; animation: none !important; } }
+@media print {
+  .learning-panel, .nf-acoes, .fiscal-reflection, #receipt-status, .skip-link, .drawer { display: none !important; }
+  .receipt-modal[open] { display: block; position: static; margin: 0; width: 100%; max-height: none; height: auto; overflow: visible; }
+  .receipt-paper { max-height: none; overflow: visible; padding: 0; }
+  .nf-table { min-width: 0; display: table; }
+  .nf-table-scroll { overflow: visible; }
+  .nf-header { flex-direction: row; }
+  @page { margin: 12mm; }
+}

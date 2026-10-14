@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#00b4d8">
+  <meta name="description" content="Simulador de educação fiscal: explore produtos, monte sua compra e conheça os impostos na nota fiscal.">
+  <title>Lojinha do Ed — Educação fiscal</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="scorm.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#products">Ir para os produtos</a>
+  <header class="header" aria-label="Lojinha do Ed"><h1 class="sr-only">Lojinha do Ed</h1></header>
+  <section class="learning-panel" aria-labelledby="learning-title">
+    <div>
+      <p class="eyebrow">EDUCAÇÃO FISCAL · SIMULADOR</p>
+      <h2 id="learning-title">Sua compra também conta uma história.</h2>
+      <p>Escolha os produtos, gere a nota fiscal e observe os impostos que já fazem parte do preço. Depois, conclua a atividade na nota.</p>
+      <p class="tax-explanation">Nesta simulação, usamos uma estimativa educativa de <strong>20%</strong> de impostos, incluídos no preço. Os valores não representam a tributação real de cada produto.</p>
+    </div>
+    <div class="activity-tracking">
+      <ol class="activity-steps" aria-label="Etapas da atividade">
+        <li id="step-shop" aria-current="step">1. Monte sua compra</li>
+        <li id="step-receipt">2. Observe a nota</li>
+        <li id="step-complete">3. Conclua</li>
+      </ol>
+      <p id="connection-status" role="status"></p>
+      <p id="activity-status" role="status"></p>
+      <button id="retry-save" class="secondary-btn" hidden>Tentar salvar novamente</button>
+    </div>
+  </section>
+  <main class="app">
+    <section id="products" class="products" tabindex="-1" aria-label="Produtos da lojinha"></section>
+    <aside class="cart-section" id="cart-desktop" aria-labelledby="cart-heading">
+      <h2 id="cart-heading">Seu carrinho</h2>
+      <ul id="cart-items" class="cart-items"></ul>
+      <div class="cart-total"><span>Total:</span><span id="cart-total">R$ 0,00</span></div>
+      <p class="cart-tip">Os impostos já estão incluídos no total.</p>
+      <button id="checkout-btn" class="checkout-btn" disabled>Gerar Nota Fiscal</button>
+    </aside>
+  </main>
+  <p id="cart-announcement" class="sr-only" aria-live="polite"></p>
+  <div class="mobile-cart-bar" id="mobile-cart-bar">
+    <button id="mobile-cart-open" class="mobile-cart-open" aria-label="Abrir carrinho">🛒 <span id="mobile-cart-count">0</span></button>
+    <div class="mobile-cart-total">Total: <strong id="mobile-cart-total">R$ 0,00</strong></div>
+    <button id="mobile-checkout-btn" class="mobile-cart-checkout" disabled>Gerar nota</button>
+  </div>
+  <dialog id="drawer" class="drawer" aria-labelledby="drawer-title">
+    <header class="drawer-header"><h2 id="drawer-title">Seu carrinho</h2><button id="drawer-close" class="secondary-btn" aria-label="Fechar carrinho">✕</button></header>
+    <ul id="cart-items-mobile" class="cart-items"></ul>
+    <div class="drawer-total"><span>Total:</span><strong id="drawer-total">R$ 0,00</strong></div>
+    <button id="drawer-checkout" class="checkout-btn" disabled>Gerar Nota Fiscal</button>
+  </dialog>
+  <dialog id="receipt-modal" class="receipt-modal" aria-labelledby="receipt-title">
+    <div class="receipt-paper">
+      <header class="nf-header">
+        <div>
+          <h2 id="receipt-title">NOTA FISCAL (SIMULADA)</h2>
+          <p><strong>Emitente:</strong> Lojinha do Ed LTDA (FICTÍCIO)</p>
+          <p><strong>CNPJ:</strong> 00.000.000/0000-00 · <strong>IE:</strong> ISENTO</p>
+          <p><strong>Endereço:</strong> Rua da Educação Fiscal, 123 — Curitiba/PR</p>
+        </div>
+        <a href="https://www.educacaofiscal.pr.gov.br/" target="_blank" rel="noopener noreferrer" aria-label="Conhecer o portal Educação Fiscal do Paraná (abre em outra aba)"><img src="assets/qr-pr-educacao.png" class="nf-qr" alt="QR Code do portal Educação Fiscal PR" width="120" height="120"></a>
+      </header>
+      <div class="nf-meta">
+        <p><strong>Nº:</strong> <span id="nf-numero"></span> · <strong>Série:</strong> 1</p>
+        <p><strong>Data/Hora:</strong> <span id="nf-data"></span></p>
+        <p><strong>Destinatário:</strong> Consumidor Final</p>
+      </div>
+      <div class="nf-table-scroll" tabindex="0" role="region" aria-label="Itens da nota fiscal">
+        <table class="nf-table">
+          <caption class="sr-only">Produtos e impostos estimados da sua compra</caption>
+          <thead><tr><th scope="col">Produto</th><th scope="col">Qtd</th><th scope="col">Vlr Unit</th><th scope="col">Impostos incluídos</th><th scope="col">Total</th></tr></thead>
+          <tbody id="nf-itens"></tbody>
+        </table>
+      </div>
+      <div class="nf-totais">
+        <p><span>Valor dos produtos:</span><strong id="nf-base"></strong></p>
+        <p><span>Impostos incluídos (20%):</span><strong id="nf-impostos"></strong></p>
+        <p><span>Total da Nota:</span><strong id="nf-total"></strong></p>
+      </div>
+      <p class="nf-aviso">Documento emitido por simulador educacional. Não possui validade fiscal. A estimativa de impostos é educativa e já está incluída no total.</p>
+      <div class="fiscal-reflection">
+        <h3>Olhe além do preço</h3>
+        <p>A nota fiscal registra a compra e ajuda a acompanhar a arrecadação. Os tributos financiam serviços públicos, como educação, saúde e infraestrutura.</p>
+        <p>Observe: qual parte do valor da sua compra corresponde à estimativa de impostos?</p>
+      </div>
+      <p id="receipt-status" role="status"></p>
+      <div class="nf-acoes">
+        <button id="nf-print" class="print-btn">Imprimir</button>
+        <button id="nf-close" class="close-btn">Continuar comprando</button>
+        <button id="complete-btn" class="checkout-btn">Concluir atividade</button>
+      </div>
+    </div>
+  </dialog>
+</body>
+</html>

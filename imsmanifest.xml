@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="LOJINHA_DO_ED_V1" version="1.0"
+ xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+ xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+  </metadata>
+  <organizations default="ORG_LOJINHA">
+    <organization identifier="ORG_LOJINHA">
+      <title>A Lojinha do Ed</title>
+      <item identifier="ITEM_LOJINHA" identifierref="RES_LOJINHA">
+        <title>A Lojinha do Ed — educação fiscal</title>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="RES_LOJINHA" type="webcontent" adlcp:scormtype="sco" href="index.html">
+      <file href="index.html"/>
+      <file href="style.css"/>
+      <file href="scorm.js"/>
+      <file href="script.js"/>
+      <file href="assets/1.png"/>
+      <file href="assets/2.png"/>
+      <file href="assets/3.png"/>
+      <file href="assets/4.png"/>
+      <file href="assets/5.png"/>
+      <file href="assets/6.png"/>
+      <file href="assets/7.png"/>
+      <file href="assets/8.png"/>
+      <file href="assets/9.png"/>
+      <file href="assets/10.png"/>
+      <file href="assets/11.png"/>
+      <file href="assets/12.png"/>
+      <file href="assets/13.png"/>
+      <file href="assets/14.png"/>
+      <file href="assets/15.png"/>
+      <file href="assets/16.png"/>
+      <file href="assets/17.png"/>
+      <file href="assets/18.png"/>
+      <file href="assets/19.png"/>
+      <file href="assets/20.png"/>
+      <file href="assets/21.png"/>
+      <file href="assets/22.png"/>
+      <file href="assets/23.png"/>
+      <file href="assets/24.png"/>
+      <file href="assets/25.png"/>
+      <file href="assets/27.lojinha.png"/>
+      <file href="assets/qr-pr-educacao.png"/>
+    </resource>
+  </resources>
+</manifest>
